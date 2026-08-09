@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My API Khan - CEO & Admin Gateway Suite</title>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --card-bg: #1e293b;
+            --accent-blue: #6366f1;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body { margin: 0; font-family: Arial, sans-serif; background: var(--bg-main); color: var(--text-light); }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        .hidden { display: none !important; }
+        
+        .card { background: var(--card-bg); padding: 22px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 20px; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: var(--text-muted); }
+        input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; box-sizing: border-box; }
+        button { width: 100%; background: var(--accent-green); color: white; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 6px; }
+        .btn-blue { background: var(--accent-blue); }
+        .btn-red { background: var(--accent-red); }
+        .btn-yellow { background: var(--accent-yellow); color: #000; }
+        .btn-link { background: transparent; color: var(--accent-blue); text-decoration: underline; border: none; padding: 5px; margin-top: 10px; font-size: 13px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 8px 10px; border: 1px solid #334155; text-align: left; font-size: 12px; }
+        th { background: #0f172a; color: var(--accent-blue); }
+        
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 12px; margin-bottom: 15px; }
+        .badge { background: var(--accent-blue); padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+        .ss-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid #475569; }
+        
+        /* Receipt Style */
+        .receipt-box { background: #ffffff; color: #000; padding: 20px; border-radius: 8px; font-family: monospace; border: 2px solid #000; }
+        .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 12px; }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+        
+        /* Signature Area */
+        .signature-section { margin-top: 25px; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .stamp-box { border: 2px dashed #10b981; color: #10b981; padding: 5px 10px; font-weight: bold; font-size: 11px; text-align: center; border-radius: 4px; transform: rotate(-5deg); }
+        .sig-box { text-align: center; }
+        .sig-font { font-family: 'Brush Script MT', cursive, sans-serif; font-size: 22px; font-weight: bold; color: #1e293b; display: block; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- AUTHENTICATION MODULE -->
+    <div id="authSection">
+        <!-- LOGIN CARD -->
+        <div id="loginCard" class="card" style="border: 1px solid var(--accent-blue);">
+            <h2 style="color: var(--accent-blue); margin-top:0;">🔐 Master Login System</h2>
+            <p style="color: var(--text-muted); font-size: 12px;">CEO/Admin अपने क्रेडेंशियल्स दर्ज करें</p>
+            <div class="form-group">
+                <label>Username / Email:</label>
+                <input type="text" id="loginUsername" value="khankhanmdsher@">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="loginPassword" value="Khan123@">
+            </div>
+            <button type="button" onclick="handleLogin()" class="btn-blue">Login Now</button>
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="button" onclick="showRegisterForm()" class="btn-link">Don't have an account? Register Here</button>
+            </div>
+        </div>
+
+        <!-- REGISTRATION CARD -->
+        <div id="registerCard" class="card hidden">
+            <h2 style="margin-top:0;">📝 Admin Registration</h2>
+            <p style="color: var(--text-muted); font-size: 12px;">रजिस्ट्रेशन के बाद CEO अप्रूवल मिलने पर लॉगिन करें</p>
+            <div class="form-group">
+                <label>First Name:</label>
+                <input type="text" id="regFirstName" placeholder="Abdul">
+            </div>
+            <div class="form-group">
+                <label>Last Name:</label>
+                <input type="text" id="regLastName" placeholder="Aziz">
+            </div>
+            <div class="form-group">
+                <label>Email ID:</label>
+                <input type="email" id="regEmail" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label>Mobile Number:</label>
+                <input type="tel" id="regMobile" placeholder="9876543210">
+            </div>
+            <div class="form-group">
+                <label>Choose Username:</label>
+                <input type="text" id="regUsername" placeholder="khan123">
+            </div>
+            <div class="form-group">
+                <label>Create Password:</label>
+                <input type="password" id="regPassword" placeholder="••••••••">
+            </div>
+            <button type="button" onclick="handleRegister()">Register Account</button>
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="button" onclick="showLoginForm()" class="btn-link">Already have an account? Login Here</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="mainDashboard" class="hidden">
+        
+        <div class="nav-bar">
+            <div>
+                <h1 style="margin: 0; font-size: 20px;">My API Khan <span id="roleBadge" class="badge">User</span></h1>
+                <small id="userGreeting" style="color: var(--text-muted);"></small>
+            </div>
+            <button type="button" onclick="handleLogout()" class="btn-red" style="width: auto; padding: 6px 15px;">Logout</button>
+        </div>
+
+        <!-- CEO MASTER CONTROL PANEL -->
+        <div id="ceoPanel" class="card hidden" style="border: 1px solid var(--accent-blue);">
+            <h2 style="color: var(--accent-blue); margin-top: 0;">👑 CEO Master Control & Approvals</h2>
+            
+            <h3>⏳ 1. Pending Admins Approval</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userApprovalTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LIVE PAYMENTS DATABASE -->
+        <div class="card">
+            <h3 style="margin-top:0;">💳 Live Payments Database</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Customer Name</th>
+                            <th>Amount (₹)</th>
+                            <th>12-Digit UTR</th>
+                            <th>Screenshot</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentDbTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAYMENT FORM MODULE -->
+        <div class="card">
+            <h3>🛡️ Customer Payment Verification & Receipt</h3>
+            <div class="form-group">
+                <label>Customer Name:</label>
+                <input type="text" id="custNameInput" placeholder="नाम दर्ज करें">
+            </div>
+            <div class="form-group">
+                <label>Amount Paid (₹):</label>
+                <input type="number" id="custAmtInput" placeholder="500">
+            </div>
+            <div class="form-group">
+                <label>12-Digit UTR Number:</label>
+                <input type="text" id="utrInput" placeholder="423156789012" maxlength="12">
+            </div>
+            <div class="form-group">
+                <label>Upload Payment Screenshot:</label>
+                <input type="file" id="ssInput" accept="image/*">
+            </div>
+            <button type="button" onclick="submitPaymentVerification()">Submit & Generate Receipt</button>
+        </div>
+
+        <!-- CUSTOMER RECEIPT VIEW WITH SIGNATURE -->
+        <div id="receiptModal" class="card hidden">
+            <div class="receipt-box" id="printArea">
+                <div class="receipt-header">
+                    <h2 style="margin:0; font-size: 22px;">MY API KHAN</h2>
+                    <small style="letter-spacing: 1px;">OFFICIAL PAYMENT RECEIPT</small>
+                </div>
+                <div class="receipt-row"><span>Date & Time:</span> <strong id="rcptTime"></strong></div>
+                <div class="receipt-row"><span>Customer Name:</span> <strong id="rcptName"></strong></div>
+                <div class="receipt-row"><span>Amount Paid:</span> <strong>₹<span id="rcptAmt"></span></strong></div>
+                <div class="receipt-row"><span>UTR Number:</span> <strong id="rcptUtr"></strong></div>
+                <div class="receipt-row"><span>Payment Status:</span> <strong style="color:green;">VERIFIED & SUCCESSFUL</strong></div>
+                
+                <hr style="border: 1px dashed #000; margin-top: 15px;">
+                
+                <!-- SIGNATURE & STAMP SECTION -->
+                <div class="signature-section">
+                    <div class="stamp-box">
+                        ✓ VERIFIED<br>PAYMENT
+                    </div>
+                    <div class="sig-box">
+                        <span class="sig-font">Mr.Faiz khan</span>
+                        <small style="font-weight: bold; font-size: 11px; display: block;">CEO Mr.Faiz khan</small>
+                        <small style="font-size: 9px; color: #555;">(Authorized Signatory)</small>
+                    </div>
+                </div>
+
+                <p style="text-align:center; font-size:10px; margin-top:15px; margin-bottom:0;">Thank you for your payment! This is a system generated official receipt.</p>
+            </div>
+
+            <button type="button" onclick="window.print()" class="btn-blue" style="margin-top:15px;">🖨️ Print / Download Receipt</button>
+            <button type="button" onclick="closeReceipt()" class="btn-red" style="margin-top:5px;">Close Receipt</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    let users = JSON.parse(localStorage.getItem('myapi_users')) || [];
+    let payments = JSON.parse(localStorage.getItem('myapi_payments')) || [];
+    let currentUser = null;
+
+    function speakVoiceAlert(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'hi-IN';
+            window.speechSynthesis.speak(speech);
+        }
+    }
+
+    function showRegisterForm() {
+        document.getElementById('loginCard').classList.add('hidden');
+        document.getElementById('registerCard').classList.remove('hidden');
+    }
+
+    function showLoginForm() {
+        document.getElementById('registerCard').classList.add('hidden');
+        document.getElementById('loginCard').classList.remove('hidden');
+    }
+
+    function handleRegister() {
+        const firstName = document.getElementById('regFirstName').value.trim();
+        const lastName = document.getElementById('regLastName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const mobile = document.getElementById('regMobile').value.trim();
+        const username = document.getElementById('regUsername').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+
+        if (!firstName || !email || !username || !password) {
+            alert('कृपया सभी ज़रूरी विवरण भरें!');
+            return;
+        }
+
+        users.push({ name: `${firstName} ${lastName}`, email, mobile, username, password, status: 'Pending', role: 'Admin' });
+        localStorage.setItem('myapi_users', JSON.stringify(users));
+        alert('✅ रजिस्ट्रेशन सफल! CEO अप्रूवल के बाद लॉगिन करें।');
+        showLoginForm();
+    }
+
+    function handleLogin() {
+        const uName = document.getElementById('loginUsername').value.trim();
+        const uPass = document.getElementById('loginPassword').value.trim();
+
+        if (uName === 'khankhanmdsher@' && uPass === 'Khan123@') {
+            currentUser = { name: 'CEO Mr.Faiz khan', role: 'CEO', status: 'Approved' };
+            startSession(currentUser);
+            return;
+        }
+
+        const user = users.find(u => (u.username === uName || u.email === uName) && u.password === uPass);
+
+        if (!user) {
+            speakVoiceAlert("आपका यूजरनेम या पासवर्ड गलत है, कृपया सही से चेक करके दोबारा प्रयास करें।");
+            alert('❌ गलत यूज़रनेम या पासवर्ड!');
+            return;
+        }
+
+        if (user.status !== 'Approved') {
+            alert('🚫 आपका अकाउंट पेंडिंग है। CEO अप्रूवल का इंतज़ार करें।');
+            return;
+        }
+
+        currentUser = user;
+        startSession(user);
+    }
+
+    function startSession(user) {
+        document.getElementById('authSection').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('hidden');
+        document.getElementById('userGreeting').innerText = `Logged in as: ${user.name}`;
+        document.getElementById('roleBadge').innerText = user.role;
+
+        if (user.role === 'CEO') {
+            document.getElementById('ceoPanel').classList.remove('hidden');
+            renderCeoApprovals();
+        } else {
+            document.getElementById('ceoPanel').classList.add('hidden');
+        }
+
+        renderPaymentDb();
+    }
+
+    function submitPaymentVerification() {
+        const name = document.getElementById('custNameInput').value.trim();
+        const amt = document.getElementById('custAmtInput').value.trim();
+        const utr = document.getElementById('utrInput').value.trim();
+        const fileInput = document.getElementById('ssInput');
+
+        if (!name || !amt) { alert('❌ नाम और अमाउंट दर्ज करें!'); return; }
+        if (!/^[0-9]{12}$/.test(utr)) { alert('❌ 12 अंकों का वैध UTR दर्ज करें!'); return; }
+        if (fileInput.files.length === 0) { alert('❌ स्क्रीनशॉट अपलोड करें!'); return; }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const now = new Date();
+            const timeStamp = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+
+            const newPayment = { id: Date.now(), dateTime: timeStamp, name, amt, utr, ss: e.target.result, status: 'Approved' };
+            payments.push(newPayment);
+            localStorage.setItem('myapi_payments', JSON.stringify(payments));
+
+            // Show Receipt
+            document.getElementById('rcptTime').innerText = timeStamp;
+            document.getElementById('rcptName').innerText = name;
+            document.getElementById('rcptAmt').innerText = amt;
+            document.getElementById('rcptUtr').innerText = utr;
+            document.getElementById('receiptModal').classList.remove('hidden');
+
+            renderPaymentDb();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    function closeReceipt() {
+        document.getElementById('receiptModal').classList.add('hidden');
+    }
+
+    function renderPaymentDb() {
+        const tbody = document.getElementById('paymentDbTable');
+        tbody.innerHTML = '';
+
+        if (payments.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">कोई पेमेंट रिकॉर्ड नहीं है।</td></tr>';
+            return;
+        }
+
+        payments.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><small>${p.dateTime}</small></td>
+                <td>${p.name}</td>
+                <td>₹${p.amt}</td>
+                <td><code>${p.utr}</code></td>
+                <td><img src="${p.ss}" class="ss-img" onclick="window.open('${p.ss}')"></td>
+                <td><strong style="color:var(--accent-green);">${p.status}</strong></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderCeoApprovals() {
+        const tbody = document.getElementById('userApprovalTable');
+        tbody.innerHTML = '';
+        users.forEach((u, index) => {
+            if (u.role !== 'CEO') {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${u.name}</td>
+                    <td>${u.username}</td>
+                    <td><strong>${u.status}</strong></td>
+                    <td><button type="button" onclick="approveUser(${index})" class="btn-blue" style="padding: 4px 6px; font-size: 11px;">Approve</button></td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
+    }
+
+    function approveUser(index) {
+        users[index].status = 'Approved';
+        localStorage.setItem('myapi_users', JSON.stringify(users));
+        alert(`✅ ${users[index].name} का अकाउंट अप्रूव हो गया!`);
+        renderCeoApprovals();
+    }
+
+    function handleLogout() { location.reload(); }
+</script>
+</body>
+</html>
+
